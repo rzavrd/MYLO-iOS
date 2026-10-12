@@ -1,0 +1,25 @@
+.DS_Store
+# generated Xcode project (run `xcodegen`)
+xcuserdata/
+DerivedData/
+build/
+# user database and secrets: never commit
+dist/
+tools/users.private.json
+users.private.json
+*.mobileprovision
+
+# Secrets and signing credentials
+.env
+.env.*
+!.env.example
+*.p12
+*.mobileprovision
+*.provisionprofile
+AuthKey_*.p8
+Secrets.xcconfig
+
+# Xcode user-specific files
+xcuserdata/
+DerivedData/
+build/

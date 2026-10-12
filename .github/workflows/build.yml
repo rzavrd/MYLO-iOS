@@ -1,0 +1,15 @@
+name: build
+on: [push, pull_request]
+jobs:
+  ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: brew install xcodegen
+      - run: xcodegen
+      - name: Build both targets (unsigned, simulator)
+        run: |
+          for t in MYLO MYLO-AppStore; do
+            xcodebuild -project MYLO.xcodeproj -scheme "$t" -destination 'generic/platform=iOS Simulator' \
+              CODE_SIGNING_ALLOWED=NO build
+          done

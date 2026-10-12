@@ -1,0 +1,114 @@
+name: MYLO
+options:
+  bundleIdPrefix: com.mylo
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_STRICT_CONCURRENCY: minimal
+packages:
+  # OpenVPN 3 core wrapper (AGPL-3.0). Only the tunnel extension links it; see docs/OPENVPN.md.
+  # If SPM resolution fails, try `branch: master` instead of `from:`.
+  OpenVPNAdapter:
+    url: https://github.com/ss-abramchuk/OpenVPNAdapter.git
+    from: 0.8.0
+targetTemplates:
+  App:
+    type: application
+    platform: iOS
+    sources:
+      - path: MYLO
+        excludes: ["Config/**"]
+    settings:
+      base:
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+targets:
+  # Free Apple ID build: no entitlement, profile mode (see README).
+  MYLO:
+    templates: [App]
+    info:
+      path: MYLO/Config/Info.plist
+      properties:
+        CFBundleDisplayName: MYLO VPN
+        UILaunchScreen:
+          UIImageName: Logo
+        CFBundleURLTypes:
+          - CFBundleURLName: com.mylo.vpn
+            CFBundleURLSchemes: [mylo]
+        LSApplicationQueriesSchemes: [shortcuts]
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        NSFaceIDUsageDescription: Used only to check whether Face ID is enabled on this device.
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mylo.vpn
+  # App Store build: paid (organization) account, Personal VPN capability, native tunnel only.
+  MYLO-AppStore:
+    templates: [App]
+    info:
+      path: MYLO/Config/Info-AppStore.plist
+      properties:
+        CFBundleDisplayName: MYLO VPN
+        UILaunchScreen:
+          UIImageName: Logo
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        NSFaceIDUsageDescription: Used only to check whether Face ID is enabled on this device.
+        ITSAppUsesNonExemptEncryption: false
+    entitlements:
+      path: MYLO/Config/MYLO-AppStore.entitlements
+      properties:
+        com.apple.developer.networking.vpn.api: [allow-vpn]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mylo.vpn
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) APPSTORE"
+  # OpenVPN build: paid account, Personal VPN + Network Extension capabilities, embeds the tunnel extension.
+  MYLO-OpenVPN:
+    templates: [App]
+    dependencies:
+      - target: MYLOTunnel
+    info:
+      path: MYLO/Config/Info-OpenVPN.plist
+      properties:
+        CFBundleDisplayName: MYLO VPN
+        UILaunchScreen:
+          UIImageName: Logo
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        NSFaceIDUsageDescription: Used only to check whether Face ID is enabled on this device.
+        ITSAppUsesNonExemptEncryption: false
+    entitlements:
+      path: MYLO/Config/MYLO-OpenVPN.entitlements
+      properties:
+        com.apple.developer.networking.vpn.api: [allow-vpn]
+        com.apple.developer.networking.networkextension: [packet-tunnel-provider]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mylo.vpn
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) OPENVPN"
+  # Packet Tunnel extension running the OpenVPN core. Bundle id must be "<app id>.tunnel".
+  MYLOTunnel:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: MYLOTunnel
+        excludes: ["*.plist", "*.entitlements"]
+    dependencies:
+      - package: OpenVPNAdapter
+    info:
+      path: MYLOTunnel/Info.plist
+      properties:
+        CFBundleDisplayName: MYLO Tunnel
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.networkextension.packet-tunnel
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).PacketTunnelProvider
+    entitlements:
+      path: MYLOTunnel/MYLOTunnel.entitlements
+      properties:
+        com.apple.developer.networking.networkextension: [packet-tunnel-provider]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.mylo.vpn.tunnel
+        TARGETED_DEVICE_FAMILY: "1"
