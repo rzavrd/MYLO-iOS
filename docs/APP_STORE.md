@@ -18,14 +18,14 @@ brew install xcodegen && xcodegen && open MYLO.xcodeproj
 ## 3. Things that will get the app rejected if left as they are
 1. **Server list and account.** `Defaults.swift` lists hostnames of a third-party provider. Use your own servers, or make sure you are allowed to use that provider's name, servers and accounts commercially. The app also needs a *working* account for the reviewer.
 2. **Demo account.** App Store Connect > App Review Information: put a working IKEv2 username/password (and the steps: Profile > Advanced > IKEv2 account) so the reviewer can connect.
-3. **Misleading claims.** Don't promise anonymity, "100% secure" or unblocking; don't mention circumventing a government's blocking.
+3. **Misleading claims.** Describe what the app does accurately. Don't promise anonymity, "100% secure" or access to any particular service, and don't claim features that are not built yet.
 4. **Data use.** Guideline 5.4: no selling or sharing user data, no collecting it for anything but the VPN function. Say so in the privacy policy.
-5. **Regional laws.** VPN apps are restricted in some countries (for example China, Russia, UAE, Turkey, Iran). Apple can require a license or remove the app there. Check where you list it (App Store Connect > Pricing and Availability).
+5. **Regional laws and eligibility.** VPN apps are restricted in some countries (for example China, Russia, UAE, Turkey, Iran). Apple can require a license or remove the app there. Check where you list it (App Store Connect > Pricing and Availability). The Apple Developer account, organization details and D-U-N-S record must be truthful and the developer must be legally eligible to enroll, including under export-control and sanctions rules; get legal advice if you are unsure.
 6. **Placeholder icon.** `Assets.xcassets/AppIcon` is a simple generated icon. Replace it with your own 1024x1024 PNG (no transparency).
 
 ## 4. App Store Connect form
 - **Privacy policy URL**: required. Start from `docs/PRIVACY.md` and host it (GitHub Pages works).
-- **App Privacy ("nutrition label")**: the app itself collects nothing. It does contact `api.ipify.org` to show your public IP and sends pings/TCP probes to Cloudflare/Google/Quad9; if you keep these, mention them. `PrivacyInfo.xcprivacy` declares no tracking and the two required-reason APIs used (UserDefaults, boot time).
+- **App Privacy ("nutrition label")**: the developer receives no data. Third-party requests the app makes: `api.ipify.org` (only if "Show IP" is on, off by default), `ipinfo.io` and `speed.cloudflare.com` (only when the user runs a Speed Test), and TCP probes to Cloudflare/Google/Quad9/Apple. Answer the label questions about these truthfully and keep them in the privacy policy (`docs/PRIVACY.md` lists them). `PrivacyInfo.xcprivacy` declares no tracking and the UserDefaults required-reason API (CA92.1). It also declares the system boot time API (35F9.1); this code base does not call it directly, so remove that entry if a build/archive check shows nothing uses it.
 - **Export compliance**: `ITSAppUsesNonExemptEncryption` is set to `false` (only operating-system IKEv2 and standard CryptoKit are used). Confirm this fits your situation; if unsure ask a lawyer.
 - **Age rating**, category (Utilities), screenshots (6.7" and 6.1" iPhone), description, support URL, contact info.
 - **Review notes** template:

@@ -40,6 +40,36 @@ func guessCc(_ host: String) -> String {
     return Locale.Region.isoRegions.contains(where: { $0.identifier == c }) ? c : ""
 }
 
+/// Country code for an imported config: a leading code ("us-east", "uk_london"), else a country name inside the
+/// file name ("Germany-udp", "Hong Kong"), else the host prefix. Empty if unknown.
+func configCc(_ name: String, host: String) -> String {
+    let n = name.lowercased().replacingOccurrences(of: "-", with: " ").replacingOccurrences(of: "_", with: " ")
+    let lead = String(n.prefix(while: { $0.isLetter }))
+    if lead.count == 2 {
+        let c = lead == "uk" ? "GB" : lead.uppercased()
+        if CountryNames.byCode[c] != nil { return c }
+    }
+    var best: (len: Int, cc: String)?
+    for (cc, nm) in CountryNames.byCode where n.contains(nm) {
+        if best == nil || nm.count > best!.len { best = (nm.count, cc) }
+    }
+    if let b = best { return b.cc }
+    return guessCc(host)
+}
+
+private enum CountryNames {
+    /// "US" -> "united states" (lower case English names, built once).
+    static let byCode: [String: String] = {
+        var d: [String: String] = [:]
+        let en = Locale(identifier: "en")
+        for r in Locale.Region.isoRegions where r.identifier.count == 2 {
+            if let nm = en.localizedString(forRegionCode: r.identifier) { d[r.identifier] = nm.lowercased() }
+        }
+        d["US"] = "united states"; d["GB"] = "united kingdom"
+        return d
+    }()
+}
+
 /// label + signal bars (0...3) from a ping in ms
 func quality(_ ms: Int?) -> (label: String, bars: Int) {
     guard let ms = ms else { return ("", 0) }

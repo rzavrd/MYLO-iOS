@@ -2,17 +2,28 @@
 
 _Last updated: YYYY-MM-DD. Replace the placeholders and have it reviewed before publishing._
 
-MYLO VPN does not collect, store on our servers, sell or share personal data, and contains no analytics, advertising or tracking.
+MYLO VPN does not collect, sell or share personal data and contains no analytics, advertising or tracking SDKs. The developer runs no server that receives data from the app.
 
-**What stays on your device.** Your IKEv2 account (kept in the iOS Keychain), settings, server list, favorites and local usage statistics (time connected, bytes transferred). Nothing is uploaded to us.
+## What stays on your device
+Your VPN account (in the iOS Keychain), settings, server list, favorites, imported configurations and local usage statistics (time connected, bytes transferred, connection history). None of it is uploaded to the developer. Deleting the app deletes it.
 
-**What the app contacts.**
-- The VPN server you choose, to create the VPN connection.
-- `api.ipify.org`, only while connected, to display your public IP address.
-- Well-known public servers (such as Cloudflare, Google, Quad9) for latency and connection checks. These requests contain no personal data.
+## What the app contacts
+- **The VPN server you choose**, to create the VPN connection. Your VPN username and password are sent to that server to authenticate.
+- **api.ipify.org**: only while connected and only if you turn on "Show IP" (off by default), to display your public IP address.
+- **ipinfo.io** and **speed.cloudflare.com**: only when you open the Speed Test screen and run a test, to show your IP, country and network provider and to measure speed.
+- **Public hosts for connection checks** (1.1.1.1, 8.8.8.8, 9.9.9.9, www.cloudflare.com, captive.apple.com, www.apple.com): small TCP connections to measure latency and to check that the connection works. They carry no personal data.
+- **Your own account server**, only if the developer configured a sign-in URL for this build.
 
-**The VPN provider.** Your traffic is handled by the VPN server operator you connect to; their privacy policy applies to that traffic: <link>.
+Like any website you visit, these services can see the IP address the request comes from (your VPN server's address while connected). Their own privacy policies apply to them.
 
-**Children.** The app is not directed to children.
+## The VPN server operator
+Your internet traffic passes through the server you connect to. The operator of that server is responsible for how it handles that traffic; their privacy policy applies: <link>.
 
-**Contact.** <your email>
+## Your choices
+Turn off "Show IP" to stop the public-IP lookup. Disconnect the VPN or delete the app at any time to stop all connections. Imported configurations and history can be deleted inside the app.
+
+## Children
+The app is not directed to children.
+
+## Contact
+<your email>

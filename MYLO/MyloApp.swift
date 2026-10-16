@@ -16,7 +16,7 @@ struct MyloApp: App {
             AppRoot()
                 .environmentObject(vm)
                 .environmentObject(auth)
-                .onOpenURL { _ in }   // mylo://done: Shortcuts hands control back to the app
+                .onOpenURL { url in if url.isFileURL { vm.openOvpnFile(url) } }   // .ovpn file opened with MYLO; mylo://done (Shortcuts) is ignored
         }
     }
 }

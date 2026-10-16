@@ -260,6 +260,18 @@ enum ConfigStore {
 
     static func raw(_ id: String) -> String? { Keychain.get("cfg-" + id) }
 
+    /// id of the stored config with exactly this text.
+    static func id(forRaw text: String) -> String? { list().first { Keychain.get("cfg-" + $0.id) == text }?.id }
+
+    /// Reuses the username/password already saved for another OpenVPN profile (a provider such as PureVPN uses one
+    /// account for all of its files), so a newly opened .ovpn can connect without asking again.
+    static func inheritAuth(for id: String) -> (user: String, pass: String)? {
+        for c in list() where c.id != id && c.kind == .openvpn {
+            if let a = auth(c.id) { setAuth(id, user: a.user, pass: a.pass); return a }
+        }
+        return nil
+    }
+
     /// Username/password for .ovpn profiles that use `auth-user-pass` (Keychain, per profile).
     static func auth(_ id: String) -> (user: String, pass: String)? {
         guard let s = Keychain.get("cfgauth-" + id), let i = s.firstIndex(of: "\n") else { return nil }

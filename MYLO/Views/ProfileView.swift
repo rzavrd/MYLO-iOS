@@ -41,7 +41,7 @@ struct ProfileView: View {
                 }.buttonStyle(.plain)
                 #endif
                 Button { dialog = "proto" } label: {
-                    SettingRow(icon: "key.fill", title: "VPN Protocol", subtitle: "Choose the best protocol for your needs", value: "IKEv2", chevron: true)
+                    SettingRow(icon: "key.fill", title: "VPN Protocol", subtitle: "Choose the best protocol for your needs", value: Store.shared.activeOvpn.isEmpty ? "IKEv2" : "OpenVPN", chevron: true)
                 }.buttonStyle(.plain)
                 ToggleRow(icon: "bolt.fill", title: "Fastest Location auto-pick",
                           subtitle: "Ping all locations and connect to the fastest. Disable to use the selected location.",

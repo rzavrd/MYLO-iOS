@@ -7,6 +7,12 @@ OpenVPN on iOS needs a **Packet Tunnel Network Extension** running an OpenVPN co
 - `brew install xcodegen && xcodegen`, then build the scheme **MYLO-OpenVPN** on a real device (Network Extensions don't run in the simulator).
 - Swift Package Manager fetches [OpenVPNAdapter](https://github.com/ss-abramchuk/OpenVPNAdapter). If resolving `from: 0.8.0` fails, edit `project.yml` to use `branch: master`. The package is not actively maintained; if it no longer builds with your Xcode, the extension can be ported to another core (the app-side code does not change).
 
+## Opening a .ovpn file directly
+MYLO registers the `.ovpn` file type. Choose **Open in MYLO** from Files, the Share sheet or a download: the profile is saved, made the active one and, in the MYLO-OpenVPN build, connected straight away (no other app is opened). If the file needs `auth-user-pass`, the username/password saved for any other OpenVPN profile is reused (one account per provider, e.g. PureVPN); otherwise enter it once under Profile > Add configuration.
+
+## Engine status
+The OpenVPNAdapter package is **archived** (read-only since March 2022) and its README points to TunnelKit as the maintained alternative. It still builds the tunnel here, but it will not get fixes or a newer OpenVPN 3 core. Moving to another engine means rewriting only `MYLOTunnel/PacketTunnelProvider.swift`; the app side stays the same.
+
 ## Use
 1. Profile > Add configuration: import `.ovpn` files (several files, or a whole folder).
 2. If a profile has `auth-user-pass`, tap the key icon and save the username/password.

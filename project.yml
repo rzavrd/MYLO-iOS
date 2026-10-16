@@ -42,6 +42,17 @@ targets:
         LSApplicationQueriesSchemes: [shortcuts]
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         NSFaceIDUsageDescription: Used only to check whether Face ID is enabled on this device.
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: OpenVPN profile
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [net.openvpn.ovpn]
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: net.openvpn.ovpn
+            UTTypeDescription: OpenVPN profile
+            UTTypeConformsTo: [public.data, public.text]
+            UTTypeTagSpecification:
+              public.filename-extension: [ovpn]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.mylo.vpn
@@ -78,6 +89,17 @@ targets:
           UIImageName: Logo
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         NSFaceIDUsageDescription: Used only to check whether Face ID is enabled on this device.
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: OpenVPN profile
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes: [net.openvpn.ovpn]
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: net.openvpn.ovpn
+            UTTypeDescription: OpenVPN profile
+            UTTypeConformsTo: [public.data, public.text]
+            UTTypeTagSpecification:
+              public.filename-extension: [ovpn]
         ITSAppUsesNonExemptEncryption: false
     entitlements:
       path: MYLO/Config/MYLO-OpenVPN.entitlements

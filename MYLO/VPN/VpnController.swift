@@ -433,7 +433,9 @@ final class VpnController: ObservableObject {
                               end: Date().timeIntervalSince1970, rx: stats.rx, tx: stats.tx, status: status))
     }
 
-    private func fetchPublicIp() {
+    /// Asks api.ipify.org for the public IP. Only done when "Show IP" is on, so by default no third party is contacted.
+    func fetchPublicIp() {
+        guard store.showIp else { return }
         Task {
             do {
                 var req = URLRequest(url: URL(string: "https://api.ipify.org")!)

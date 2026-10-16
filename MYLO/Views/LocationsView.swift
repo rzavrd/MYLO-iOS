@@ -5,6 +5,14 @@ struct LocationsView: View {
     @EnvironmentObject var vm: VpnViewModel
     var onBack: () -> Void
 
+    init(onBack: @escaping () -> Void) {
+        self.onBack = onBack
+        _protoTab = State(initialValue: Store.shared.activeOvpn.isEmpty ? 0 : 1)
+    }
+
+    @State private var protoTab = 0          // 0 = IKEv2, 1 = OpenVPN, 2 = VLESS (and VMess / Trojan)
+    @State private var cfgTick = 0
+    @State private var cfgNote: String?
     @State private var q = ""
     @State private var tab = 0
     @State private var region = "All Regions"
@@ -33,6 +41,13 @@ struct LocationsView: View {
                 }
             }
 
+            #if !APPSTORE
+            let cfgs = ConfigStore.list()
+            Segmented(options: ["IKEv2", "OpenVPN \(cfgs.filter { $0.kind == .openvpn }.count)",
+                                "VLESS \(cfgs.filter { $0.kind != .openvpn }.count)"], selected: $protoTab)
+            Spacer().frame(height: 10)
+            #endif
+            if protoTab == 0 {
             HStack(spacing: 10) {
                 Image(systemName: "magnifyingglass").foregroundColor(C.muted)
                 TextField("Search for a city or country", text: $q)
@@ -100,6 +115,9 @@ struct LocationsView: View {
                 }
                 .padding(.horizontal, 20)
             }
+            } else {
+                configPane
+            }
         }
         .task { vm.refreshHistory() }
         .task { await vm.livePingLoop(4) }   // live ping while this screen is open
@@ -128,6 +146,77 @@ struct LocationsView: View {
     }
 
     private func pick(_ s: Server) { vm.select(s.address); onBack() }
+
+    // MARK: imported configs (OpenVPN / VLESS), kept apart from the IKEv2 locations
+
+    private var canConnectOpenVPN: Bool {
+        #if OPENVPN
+        return true
+        #else
+        return false
+        #endif
+    }
+
+    @ViewBuilder
+    private var configPane: some View {
+        let kinds: [ConfigKind] = protoTab == 1 ? [.openvpn] : [.vless, .vmess, .trojan]
+        let items = ConfigStore.list().filter { kinds.contains($0.kind) }
+            .sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        let _ = cfgTick
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                Text(protoTab == 1
+                     ? (canConnectOpenVPN ? "Your imported OpenVPN profiles. Tap one to use it, then press the power button."
+                                          : "Your imported OpenVPN profiles. They connect only in the MYLO-OpenVPN build (see docs/OPENVPN.md).")
+                     : "Your imported VLESS / VMess / Trojan links. They are saved only: this build has no core to connect with them yet.")
+                    .font(.mylo(12)).foregroundColor(C.muted)
+                    .frame(maxWidth: .infinity, alignment: .leading).padding(.vertical, 6)
+                if let m = cfgNote {
+                    Text(m).font(.mylo(13)).foregroundColor(C.ink).frame(maxWidth: .infinity, alignment: .leading).padding(.bottom, 6)
+                }
+                if items.isEmpty {
+                    Text(protoTab == 1 ? "No OpenVPN profiles yet. Open a .ovpn file with MYLO, or add it under Profile > Add configuration."
+                                       : "No VLESS links yet. Add them under Profile > Add configuration.")
+                        .foregroundColor(C.muted).padding(.vertical, 30).frame(maxWidth: .infinity)
+                }
+                ForEach(items) { c in configRow(c) }
+                Spacer().frame(height: 24)
+            }
+            .padding(.horizontal, 20)
+        }
+    }
+
+    private func configRow(_ c: ImportedConfig) -> some View {
+        let isOvpn = c.kind == .openvpn
+        let active = isOvpn && Store.shared.activeOvpn == c.id
+        let usable = isOvpn && canConnectOpenVPN
+        return VStack(spacing: 0) {
+            HStack(spacing: 8) {
+                Button {
+                    if usable { Store.shared.activeOvpn = c.id; onBack() }
+                    else { cfgNote = isOvpn ? "OpenVPN connects only in the MYLO-OpenVPN build." : "\(c.kind.title) can't connect yet: it needs a tunnel core that isn't included." }
+                } label: {
+                    HStack(spacing: 14) {
+                        Text(flagEmoji(configCc(c.name, host: c.host))).font(.mylo(26))
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(c.name).font(.mylo(18, weight: active ? .bold : .regular))
+                                .foregroundColor(active ? C.teal : (usable ? C.ink : C.muted)).lineLimit(1)
+                            Text(c.kind.title).font(.mylo(12)).foregroundColor(C.muted)
+                        }
+                        Spacer()
+                        if active { Image(systemName: "checkmark.circle.fill").foregroundColor(C.teal) }
+                    }
+                    .frame(minHeight: 58)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                Button { ConfigStore.remove(c.id); cfgTick += 1 } label: {
+                    Image(systemName: "trash").foregroundColor(C.muted).frame(width: 36, height: 36)
+                }
+            }
+            divider
+        }
+    }
 
     @ViewBuilder
     private func countryGroups(_ list: [Server], order: [String]?, deletable: Bool) -> some View {
@@ -190,7 +279,7 @@ struct LocationsView: View {
     }
 
     private func fastestRow(_ best: Server) -> some View {
-        Button { vm.setAuto(true); onBack() } label: {
+        Button { Store.shared.activeOvpn = ""; vm.setAuto(true); onBack() } label: {
             VStack(spacing: 0) {
                 HStack(spacing: 14) {
                     Text(flagEmoji(best.cc)).font(.mylo(26))

@@ -72,7 +72,7 @@ final class VpnViewModel: ObservableObject {
 
     // MARK: settings
     func setTheme(_ n: String) { theme = n; store.theme = n }
-    func setShowIp(_ v: Bool) { showIp = v; store.showIp = v }
+    func setShowIp(_ v: Bool) { showIp = v; store.showIp = v; if v && isConnected { vpn.fetchPublicIp() } }
     func setFailover(_ v: Bool) { failover = v; store.failover = v }
     func setVerify(_ v: Bool) { verify = v; store.verify = v }
     func setKillSwitch(_ v: Bool) { killSwitch = v; store.killSwitch = v }
@@ -101,6 +101,7 @@ final class VpnViewModel: ObservableObject {
     private func update(_ l: [Server]) { servers = l; store.saveServers(l) }
 
     func select(_ address: String) {
+        store.activeOvpn = ""        // an IKEv2 location replaces any selected OpenVPN profile
         selected = address
         store.current = address
         setAuto(false)
@@ -139,7 +140,7 @@ final class VpnViewModel: ObservableObject {
         }
     }
 
-    /// One live-ping sample: direct (Iranian sites, only while the VPN is off) and through the tunnel.
+    /// One live-ping sample: direct (real connection, only while the VPN is off) and through the tunnel.
     func measureLiveOnce() async {
         let connected = isConnected
         let direct: Int? = connected ? nil : await LivePing.direct()
@@ -187,6 +188,31 @@ final class VpnViewModel: ObservableObject {
             if auto { fb = fb.filter { $0.pingMs != nil }.sorted { $0.pingMs! < $1.pingMs! } }
             vpn.connect(chosen, fallbacks: Array(fb.prefix(3)))
         }
+    }
+
+    /// A .ovpn file opened with MYLO (Files, Share sheet, a provider's download): save it, make it the active
+    /// profile and connect straight away with the built-in engine, without going through any other app.
+    func openOvpnFile(_ url: URL) {
+        #if !APPSTORE
+        let scoped = url.startAccessingSecurityScopedResource()
+        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+        guard let text = try? String(contentsOf: url, encoding: .utf8) else { say("Could not read the .ovpn file"); return }
+        do {
+            let p = try ConfigParser.parseOvpn(text, filename: url.lastPathComponent)
+            ConfigStore.add(p)
+            guard let id = ConfigStore.id(forRaw: p.raw) else { return }
+            #if OPENVPN
+            store.activeOvpn = id
+            if ConfigParser.needsAuth(p.raw) && ConfigStore.auth(id) == nil && ConfigStore.inheritAuth(for: id) == nil {
+                say("Saved. Add the username and password in Profile > Add configuration, then tap the power button.")
+                return
+            }
+            if !isActive { toggleOpenVPN() }
+            #else
+            say("Saved. OpenVPN connects only in the MYLO-OpenVPN build.")
+            #endif
+        } catch { say(error.localizedDescription) }
+        #endif
     }
 
     #if !APPSTORE

@@ -11,7 +11,7 @@ private let faq: [(String, String)] = [
     ("My internet stops when the VPN drops",
      "In direct mode MYLO checks the tunnel every few seconds. If it is dead it stops the VPN so your normal internet comes back and (with Auto reconnect on) connects to the fastest other location. In profile mode iOS itself manages the tunnel."),
     ("What is the Live ping?",
-     "On the home screen, 'Iran (direct)' is the latency of your real connection to Iranian sites; it pauses while the VPN is on. 'Via VPN' is the round trip through the tunnel."),
+     "On the home screen, 'direct' is the latency of your real connection (without the VPN); it pauses while the VPN is on. 'Via VPN' is the round trip through the tunnel."),
     ("Who can use this app?",
      "Only accounts created by the owner. If your access is removed or expires, the app signs you out the next time it can verify your account."),
 ]

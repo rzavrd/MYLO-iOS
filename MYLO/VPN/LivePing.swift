@@ -1,12 +1,12 @@
 import Foundation
 
-/// Live latency of the real (non-VPN) connection to Iranian sites, and of the tunnel.
+/// Live latency of the real (non-VPN) connection, and of the tunnel.
 /// iOS routes everything through the tunnel while connected, so the direct probe only makes sense when the VPN is off.
 enum LivePing {
-    private static let domestic = ["www.digikala.com", "www.aparat.com"]
+    private static let direct = ["captive.apple.com", "www.apple.com"]
 
     static func direct() async -> Int? {
-        for h in domestic {
+        for h in direct {
             if let ms = await Probe.tcpLatency(host: h, port: 443) { return ms }
         }
         return nil

@@ -16,21 +16,13 @@ struct HomeView: View {
         let connecting = vm.isConnecting
         let server = vm.servers.first { $0.address == vm.selected }
         let best = vm.servers.filter { $0.pingMs != nil }.min { $0.pingMs! < $1.pingMs! }
-        let shown = vm.auto ? (best ?? server) : server
+        let ovpn = activeOpenVPN()
+        let shown: Server? = ovpn.map { Server(name: $0.name, address: "", cc: configCc($0.name, host: $0.host)) }
+            ?? (vm.auto ? (best ?? server) : server)
 
         ScrollView {
             VStack(spacing: 0) {
                 hero(connected: connected, connecting: connecting)
-
-                HStack(spacing: 8) {
-                    if !connecting {
-                        Image(systemName: connected ? "lock.fill" : "lock.open.fill")
-                            .font(.mylo(20)).foregroundColor(connected ? C.teal : C.ink)
-                    }
-                    Text(connected ? "Protected" : connecting ? "Connecting" : "Not Protected")
-                        .font(.mylo(22, weight: .bold)).foregroundColor(C.ink)
-                }
-                .padding(.top, 10)
 
                 if connecting && !vm.detail.isEmpty {
                     Text(vm.detail).font(.mylo(12)).foregroundColor(C.muted)
@@ -47,12 +39,13 @@ struct HomeView: View {
                         .font(.mylo(12)).foregroundColor(C.muted)
                         .multilineTextAlignment(.center).padding(.horizontal, 28).padding(.top, 4)
                 }
-                Spacer().frame(height: 14)
+                Spacer().frame(height: 6)
 
                 VStack(spacing: 12) {
-                    locationCard(shown: shown, server: server, best: best)
-                    WorldMap(cc: shown?.cc, connected: connected)
-                        .aspectRatio(2.49, contentMode: .fit)
+                    locationCard(shown: shown, server: server, best: best, ovpn: ovpn)
+                    WorldMap(cc: shown?.cc, connected: connected, connecting: connecting,
+                             labelCodes: vm.servers.map { $0.cc }.filter { !$0.isEmpty })
+                        .aspectRatio(WorldMap.imageSize.width / WorldMap.imageSize.height, contentMode: .fit)
                         .background(C.mapBg)
                         .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     timeAndProtocol
@@ -162,14 +155,24 @@ struct HomeView: View {
 
     // MARK: cards
 
-    private func locationCard(shown: Server?, server: Server?, best: Server?) -> some View {
+    /// The OpenVPN profile chosen in Locations > OpenVPN (only the OpenVPN build can connect with it).
+    private func activeOpenVPN() -> ImportedConfig? {
+        #if OPENVPN
+        let id = Store.shared.activeOvpn
+        return id.isEmpty ? nil : ConfigStore.list().first { $0.id == id && $0.kind == .openvpn }
+        #else
+        return nil
+        #endif
+    }
+
+    private func locationCard(shown: Server?, server: Server?, best: Server?, ovpn: ImportedConfig?) -> some View {
         Button(action: onChange) {
             HStack(spacing: 10) {
                 Text(flagEmoji(shown?.cc ?? "")).font(.mylo(22))
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(vm.auto ? (best?.name ?? "Measuring...") : "Selected Location")
+                    Text(ovpn != nil ? "OpenVPN" : (vm.auto ? (best?.name ?? "Measuring...") : "Selected Location"))
                         .font(.mylo(12)).foregroundColor(C.muted).lineLimit(1)
-                    Text(vm.auto ? "Fastest Location" : (server?.name ?? "No server selected"))
+                    Text(ovpn?.name ?? (vm.auto ? "Fastest Location" : (server?.name ?? "No server selected")))
                         .font(.mylo(19, weight: .semibold)).foregroundColor(C.ink).lineLimit(1)
                 }
                 Spacer()
@@ -229,7 +232,7 @@ struct HomeView: View {
                     }
                     Spacer(minLength: 0)
                     Text("Selected:").font(.mylo(12)).foregroundColor(C.ink)
-                    Text("IKEv2").font(.mylo(20, weight: .bold)).foregroundColor(C.ink)
+                    Text(activeOpenVPN() != nil ? "OpenVPN" : "IKEv2").font(.mylo(20, weight: .bold)).foregroundColor(C.ink)
                 }
                 .padding(.horizontal, 14).padding(.vertical, 10)
                 .frame(maxWidth: .infinity, minHeight: 85, alignment: .topLeading)
@@ -280,7 +283,7 @@ struct HomeView: View {
     private func liveCard(connected: Bool) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text("Live ping - Iran (direct)").font(.mylo(12)).foregroundColor(C.muted)
+                Text("Live ping - direct").font(.mylo(12)).foregroundColor(C.muted)
                 if let ms = vm.live.directMs {
                     Text("\(ms) ms").font(.mylo(18, weight: .bold)).foregroundColor(C.teal)
                 } else {

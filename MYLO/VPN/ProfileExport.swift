@@ -87,22 +87,28 @@ enum ProfileExport {
     }
 }
 
-/// Serves the profile once from 127.0.0.1 so Safari can download it and offer the install prompt.
+/// Serves the profile from 127.0.0.1 so Safari can download it and offer the install prompt.
+/// The listener is bound to the loopback address only (never reachable from the Wi-Fi/cellular network), and the
+/// file is served only on a random, unguessable path, so other apps on the phone cannot fetch it by scanning ports.
 final class ProfileServer: @unchecked Sendable {
     private var listener: NWListener?
     private var payload = Data()
+    private let token = UUID().uuidString
 
     func start(serving data: Data) async -> URL? {
         payload = data
         return await withCheckedContinuation { (c: CheckedContinuation<URL?, Never>) in
             let once = OnceBox<URL?> { c.resume(returning: $0) }
             do {
-                let l = try NWListener(using: .tcp)
+                let params = NWParameters.tcp
+                params.requiredLocalEndpoint = NWEndpoint.hostPort(host: .ipv4(.loopback), port: .any)   // 127.0.0.1 only
+                let l = try NWListener(using: params)
+                let token = self.token
                 l.newConnectionHandler = { [weak self] conn in self?.handle(conn) }
                 l.stateUpdateHandler = { st in
                     switch st {
                     case .ready:
-                        if let p = l.port { once.fire(URL(string: "http://127.0.0.1:\(p.rawValue)/MYLO-VPN.mobileconfig")) } else { once.fire(nil) }
+                        if let p = l.port { once.fire(URL(string: "http://127.0.0.1:\(p.rawValue)/\(token)/MYLO-VPN.mobileconfig")) } else { once.fire(nil) }
                     case .failed: once.fire(nil)
                     default: break
                     }
@@ -115,8 +121,14 @@ final class ProfileServer: @unchecked Sendable {
 
     private func handle(_ c: NWConnection) {
         c.start(queue: .global())
-        c.receive(minimumIncompleteLength: 1, maximumLength: 8192) { [weak self] _, _, _, _ in
+        c.receive(minimumIncompleteLength: 1, maximumLength: 8192) { [weak self] data, _, _, _ in
             guard let self else { c.cancel(); return }
+            let request = data.flatMap { String(data: $0, encoding: .utf8) } ?? ""
+            guard request.hasPrefix("GET /\(self.token)/") else {
+                let nf = "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
+                c.send(content: Data(nf.utf8), completion: .contentProcessed { _ in c.cancel() })
+                return
+            }
             var head = "HTTP/1.1 200 OK\r\n"
             head += "Content-Type: application/x-apple-aspen-config\r\n"
             head += "Content-Length: \(self.payload.count)\r\n"
