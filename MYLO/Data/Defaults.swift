@@ -114,8 +114,6 @@ US|sx019630-ikev
 US|sx017501-ikev
 US|sx0140122-ikev
 US|sx019543-ikev
-|sx023501-ikev
-|sx0224209-ikev
 AU|sx152501-ikev
 AU|sx152610-ikev
 AU|sx152416-ikev
@@ -176,5 +174,28 @@ MX|sx360633-ikev
             let name = (total[cc] ?? 1) > 1 ? "\(base) - \(k)" : base
             return Server(name: name, address: host, cc: cc)
         }
+    }
+}
+
+// MARK: - Helper
+extension Defaults {
+    static func countryName(_ cc: String) -> String {
+        let dict: [String: String] = [
+            "TR": "Turkey", "SE": "Sweden", "CH": "Switzerland", "NL": "Netherlands",
+            "DE": "Germany", "RO": "Romania", "NO": "Norway", "GB": "United Kingdom",
+            "AT": "Austria", "IE": "Ireland", "BE": "Belgium", "FR": "France",
+            "LU": "Luxembourg", "LT": "Lithuania", "IT": "Italy", "SK": "Slovakia",
+            "HU": "Hungary", "LV": "Latvia", "EE": "Estonia", "BG": "Bulgaria",
+            "DK": "Denmark", "PT": "Portugal", "US": "United States", "CA": "Canada",
+            "NG": "Nigeria", "RS": "Serbia", "VG": "British Virgin Islands",
+            "AE": "United Arab Emirates", "BN": "Brunei", "SG": "Singapore",
+            "ZA": "South Africa", "CL": "Chile", "HK": "Hong Kong",
+            "BR": "Brazil", "AR": "Argentina", "JP": "Japan", "KR": "South Korea",
+            "AU": "Australia", "GR": "Greece", "AO": "Angola", "BB": "Barbados",
+            "IN": "India", "RU": "Russia", "PL": "Poland", "CZ": "Czech Republic",
+            "FI": "Finland", "ES": "Spain", "UA": "Ukraine", "NZ": "New Zealand",
+            "MX": "Mexico"
+        ]
+        return dict[cc] ?? "Unknown"
     }
 }

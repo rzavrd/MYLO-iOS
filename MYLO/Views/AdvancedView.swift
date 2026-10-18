@@ -1,4 +1,8 @@
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import SwiftUI
 
 struct AdvancedView: View {
@@ -18,11 +22,17 @@ struct AdvancedView: View {
                     if !Defaults.requireLogin {
                         Text("IKEv2 account").foregroundColor(C.muted)
                         TextField("Username", text: $acctUser)
-                            .textInputAutocapitalization(.never).autocorrectionDisabled().foregroundColor(C.ink)
+#if canImport(UIKit)
+                            .autocapitalization(.none)
+#endif
+                            .autocorrectionDisabled().foregroundColor(C.ink)
                             .padding(12).background(RoundedRectangle(cornerRadius: 12).fill(C.card))
                             .onValueChange(of: acctUser) { Store.shared.user = $0.trimmingCharacters(in: .whitespaces) }
                         SecureField("Password", text: $acctPass)
-                            .textInputAutocapitalization(.never).autocorrectionDisabled().foregroundColor(C.ink)
+#if canImport(UIKit)
+                            .autocapitalization(.none)
+#endif
+                            .autocorrectionDisabled().foregroundColor(C.ink)
                             .padding(12).background(RoundedRectangle(cornerRadius: 12).fill(C.card))
                             .onValueChange(of: acctPass) { Store.shared.pass = $0 }
                         Text("Entered once, kept in the Keychain. Used for the IKEv2 profile and direct mode.")
@@ -37,7 +47,10 @@ struct AdvancedView: View {
                     #endif
                     Text("IKEv2").foregroundColor(C.muted).padding(.top, 8)
                     TextField("Server certificate issuer CN (optional)", text: $issuer)
-                        .textInputAutocapitalization(.never).autocorrectionDisabled().foregroundColor(C.ink)
+#if canImport(UIKit)
+                        .autocapitalization(.none)
+#endif
+                        .autocorrectionDisabled().foregroundColor(C.ink)
                         .padding(12).background(RoundedRectangle(cornerRadius: 12).fill(C.card))
                         .onValueChange(of: issuer) { Store.shared.issuerCN = $0.trimmingCharacters(in: .whitespaces) }
                     Text("iOS cannot load a CA file inside the app. If the server certificate is not signed by a CA iOS already trusts, install the CA as a profile (Settings > General > VPN & Device Management) and enable it under Settings > General > About > Certificate Trust Settings.")

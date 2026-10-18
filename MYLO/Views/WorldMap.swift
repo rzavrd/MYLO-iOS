@@ -1,4 +1,8 @@
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import SwiftUI
 
 /// World map (image asset "WorldMapImage") with the server country marked and named.

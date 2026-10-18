@@ -1,7 +1,11 @@
 #if !APPSTORE   // free-Apple-ID build only: App Store builds never install profiles
 import Foundation
 import Network
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import CryptoKit
 
 /// Builds a .mobileconfig with an IKEv2 VPN payload. Installing it needs no entitlement, so it works with a
@@ -142,11 +146,18 @@ final class ProfileServer: @unchecked Sendable {
     func stop() { listener?.cancel(); listener = nil }
 }
 
+#if canImport(UIKit)
 private final class BgTask {
     var id = UIBackgroundTaskIdentifier.invalid
     func begin() { id = UIApplication.shared.beginBackgroundTask(withName: "profile") { [weak self] in self?.end() } }
     func end() { if id != .invalid { UIApplication.shared.endBackgroundTask(id); id = .invalid } }
 }
+#else
+private final class BgTask {
+    func begin() { }
+    func end() { }
+}
+#endif
 
 @MainActor
 enum ProfileInstaller {
@@ -161,7 +172,11 @@ enum ProfileInstaller {
         current = srv
         let bg = BgTask()
         bg.begin()
+        #if canImport(UIKit)
         let opened = await UIApplication.shared.open(url)
+        #elseif canImport(AppKit)
+        let opened = NSWorkspace.shared.open(url)
+        #endif
         DispatchQueue.main.asyncAfter(deadline: .now() + 120) { srv.stop(); bg.end() }
         return opened
     }

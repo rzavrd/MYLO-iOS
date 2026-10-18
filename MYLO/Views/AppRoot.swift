@@ -1,4 +1,8 @@
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import SwiftUI
 
 struct AppRoot: View {
@@ -32,7 +36,15 @@ struct AppRoot: View {
         .onValueChange(of: scheme) { _ in applyTheme() }
         .onValueChange(of: vm.theme) { _ in applyTheme() }
         .onValueChange(of: phase) { p in
-            if p == .active { vm.vpn.startWatching(); if Defaults.requireLogin { Task { await auth.refresh() } } }
+            if p == .active {
+                vm.vpn.startWatching();
+                if Defaults.requireLogin { Task { await auth.refresh() } }
+                // Also restore VPN connection status when app becomes active
+                Task { await vm.vpn.restore() }
+                #if OPENVPN
+                Task { await OpenVPNController.shared.restore() }
+                #endif
+            }
         }
         .onValueChange(of: auth.isLoggedIn) { _ in tab = 0; sub = nil }
     }
@@ -117,7 +129,7 @@ private struct GlassBar: ViewModifier {
     @ViewBuilder
     func body(content: Content) -> some View {
         #if compiler(>=6.2)
-        if #available(iOS 26.0, *) {
+        if #available(iOS 26.0, macOS 26.0, *) {
             content.glassEffect(.regular.interactive(), in: Capsule())
         } else {
             content.background(fallback)

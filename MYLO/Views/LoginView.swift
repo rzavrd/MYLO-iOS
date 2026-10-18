@@ -1,4 +1,8 @@
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import SwiftUI
 
 struct LoginView: View {
@@ -25,7 +29,10 @@ struct LoginView: View {
                         HStack(spacing: 12) {
                             Image(systemName: "person.fill").foregroundColor(C.muted)
                             TextField("Username", text: $user)
-                                .textInputAutocapitalization(.never).autocorrectionDisabled()
+#if canImport(UIKit)
+                                .autocapitalization(.none)
+#endif
+                                .autocorrectionDisabled()
                                 .textContentType(.username).submitLabel(.next)
                                 .focused($focus, equals: 0)
                                 .onSubmit { focus = 1 }
@@ -35,9 +42,19 @@ struct LoginView: View {
                         HStack(spacing: 12) {
                             Image(systemName: "lock.fill").foregroundColor(C.muted)
                             Group {
-                                if reveal { TextField("Password", text: $pass) } else { SecureField("Password", text: $pass) }
+                                if reveal {
+                                    TextField("Password", text: $pass)
+#if canImport(UIKit)
+                                    .autocapitalization(.none)
+#endif
+                                } else {
+                                    SecureField("Password", text: $pass)
+#if canImport(UIKit)
+                                    .autocapitalization(.none)
+#endif
+                                }
                             }
-                            .textInputAutocapitalization(.never).autocorrectionDisabled()
+                            .autocorrectionDisabled()
                             .textContentType(.password).submitLabel(.go)
                             .focused($focus, equals: 1)
                             .onSubmit { submit() }

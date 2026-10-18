@@ -1,4 +1,8 @@
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import SwiftUI
 
 struct LocationsView: View {
@@ -51,7 +55,10 @@ struct LocationsView: View {
             HStack(spacing: 10) {
                 Image(systemName: "magnifyingglass").foregroundColor(C.muted)
                 TextField("Search for a city or country", text: $q)
-                    .textInputAutocapitalization(.never).autocorrectionDisabled().foregroundColor(C.ink)
+#if canImport(UIKit)
+                    .autocapitalization(.none)
+#endif
+                    .autocorrectionDisabled().foregroundColor(C.ink)
             }
             .padding(14).background(RoundedRectangle(cornerRadius: 14).fill(C.barBg)).padding(.horizontal, 20)
             Spacer().frame(height: 12)
@@ -347,12 +354,22 @@ struct AddServerSheet: View {
         NavigationStack {
             Form {
                 TextField("Name (optional)", text: $n)
-                TextField("Address / hostname", text: $a).textInputAutocapitalization(.never).autocorrectionDisabled()
+                TextField("Address / hostname", text: $a)
+#if canImport(UIKit)
+                        .autocapitalization(.none)
+#endif
+                        .autocorrectionDisabled()
                 TextField("Country code (auto if empty)", text: $c)
-                    .textInputAutocapitalization(.characters).autocorrectionDisabled()
-                    .onValueChange(of: c) { v in if v.count > 2 { c = String(v.prefix(2)) } }
+#if canImport(UIKit)
+                        .autocapitalization(.allCharacters)
+#endif
+                        .autocorrectionDisabled()
+                        .onValueChange(of: c) { v in if v.count > 2 { c = String(v.prefix(2)) } }
             }
-            .navigationTitle("Add server").navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Add server")
+            #if canImport(UIKit)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) { Button("Add") { vm.addServer(name: n, address: a, cc: c); dismiss() } }
@@ -373,12 +390,28 @@ struct ImportSheet: View {
                 Text("One per line:  name|address|cc").font(.footnote).foregroundColor(.secondary)
                 TextEditor(text: $t)
                     .font(.system(.footnote, design: .monospaced))
-                    .textInputAutocapitalization(.never).autocorrectionDisabled()
+#if canImport(UIKit)
+                    .autocapitalization(.none)
+#endif
+                    .autocorrectionDisabled()
                     .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.secondary.opacity(0.4)))
-                Button("Paste from clipboard") { t = UIPasteboard.general.string ?? t }
+                Button("Paste from clipboard") {
+                    #if canImport(UIKit)
+                    if let pasteString = UIPasteboard.general.string {
+                        t = pasteString
+                    }
+                    #elseif canImport(AppKit)
+                    if let pasteString = NSPasteboard.general.string(forType: .string) {
+                        t = pasteString
+                    }
+                    #endif
+                }
             }
             .padding()
-            .navigationTitle("Import server list").navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Import server list")
+#if canImport(UIKit)
+            .navigationBarTitleDisplayMode(.inline)
+#endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) { Button("Import") { vm.importText(t); dismiss() } }

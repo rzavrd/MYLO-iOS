@@ -1,5 +1,9 @@
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import LocalAuthentication
 
 enum Diag {
@@ -17,10 +21,18 @@ enum Diag {
     /// iOS has no Settings deep link that is guaranteed to work, so try the usual ones in turn.
     @MainActor
     static func openVpnSettings() {
+#if canImport(UIKit)
         let candidates = ["App-Prefs:root=General&path=VPN", "App-Prefs:VPN", UIApplication.openSettingsURLString]
+#else
+        let candidates: [String] = []
+#endif
         func attempt(_ i: Int) {
             guard i < candidates.count, let u = URL(string: candidates[i]) else { return }
+#if canImport(UIKit)
             UIApplication.shared.open(u, options: [:]) { ok in if !ok { attempt(i + 1) } }
+#elseif canImport(AppKit)
+            NSWorkspace.shared.open(u)
+#endif
         }
         attempt(0)
     }

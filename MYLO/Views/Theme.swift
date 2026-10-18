@@ -1,5 +1,9 @@
 import SwiftUI
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 
 extension Color {
     init(hex: UInt32, alpha: Double = 1) {
@@ -224,7 +228,7 @@ extension View {
     /// `onChange` without the iOS 17 deprecation warning, still working on iOS 16.
     @ViewBuilder
     func onValueChange<V: Equatable>(of value: V, _ action: @escaping (V) -> Void) -> some View {
-        if #available(iOS 17.0, *) {
+        if #available(iOS 17.0, macOS 14.0, *) {
             self.onChange(of: value) { _, new in action(new) }
         } else {
             self.onChange(of: value, perform: action)
@@ -237,7 +241,11 @@ extension Font {
     /// System font that follows the phone's text size (Settings > Display & Brightness > Text Size, and the
     /// Control Center slider). Growth is capped at 1.3x so the fixed-size cards and the tab bar stay usable.
     static func mylo(_ size: CGFloat, weight: Font.Weight = .regular, design: Font.Design = .default) -> Font {
+#if canImport(UIKit)
         let scaled = min(UIFontMetrics.default.scaledValue(for: size), size * 1.3)
+#else
+        let scaled = size
+#endif
         return .system(size: scaled, weight: weight, design: design)
     }
 }

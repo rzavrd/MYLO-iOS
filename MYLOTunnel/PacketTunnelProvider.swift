@@ -29,10 +29,10 @@ final class PacketTunnelProvider: NEPacketTunnelProvider {
         conf.fileContent = ovpn
         conf.tunPersist = true
 
-        let props: OpenVPNProperties
+        let props: OpenVPNConfigurationEvaluation
         do { props = try adapter.apply(configuration: conf) } catch { completionHandler(error); return }
 
-        if !props.autologinEnabled {
+        if !props.autologin {
             let user = cfg["user"] as? String ?? ""
             let pass = cfg["pass"] as? String ?? ""
             let creds = OpenVPNCredentials()

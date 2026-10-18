@@ -1,8 +1,13 @@
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var vm: VpnViewModel
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     var onChange: () -> Void
     var onAssistant: () -> Void
     var onAppearance: () -> Void
@@ -20,41 +25,76 @@ struct HomeView: View {
         let shown: Server? = ovpn.map { Server(name: $0.name, address: "", cc: configCc($0.name, host: $0.host)) }
             ?? (vm.auto ? (best ?? server) : server)
 
-        ScrollView {
-            VStack(spacing: 0) {
-                hero(connected: connected, connecting: connecting)
+        let isRegular = horizontalSizeClass == .regular
+        let heroHeight: CGFloat = isRegular ? 250 : 312
 
-                if connecting && !vm.detail.isEmpty {
-                    Text(vm.detail).font(.mylo(12)).foregroundColor(C.muted)
-                        .multilineTextAlignment(.center).padding(.horizontal, 24).padding(.vertical, 2)
-                }
-                if let m = vm.failedMessage {
-                    Text(m).font(.mylo(12)).foregroundColor(C.danger)
-                        .multilineTextAlignment(.center).padding(.horizontal, 24).padding(.vertical, 4)
-                }
-                if vm.mode == .profile && !connected && !connecting {
-                    Text(vm.notice.isEmpty
-                         ? "Tap the power button. The first time it installs the VPN profile and guides you through a one-time Shortcuts setup; after that the button turns the VPN on and off."
-                         : vm.notice)
-                        .font(.mylo(12)).foregroundColor(C.muted)
-                        .multilineTextAlignment(.center).padding(.horizontal, 28).padding(.top, 4)
-                }
-                Spacer().frame(height: 6)
+        VStack(spacing: 0) {
+            hero(connected: connected, connecting: connecting)
+                .frame(height: heroHeight)
 
-                VStack(spacing: 12) {
-                    locationCard(shown: shown, server: server, best: best, ovpn: ovpn)
-                    WorldMap(cc: shown?.cc, connected: connected, connecting: connecting,
-                             labelCodes: vm.servers.map { $0.cc }.filter { !$0.isEmpty })
-                        .aspectRatio(WorldMap.imageSize.width / WorldMap.imageSize.height, contentMode: .fit)
-                        .background(C.mapBg)
-                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                    timeAndProtocol
-                    assistantCard
-                    liveCard(connected: connected)
-                    if connected { statsCard }
-                    Spacer().frame(height: 12)
+            if isRegular {
+                // Regular size class (iPad landscape): sidebar + map
+                GeometryReader { geo in
+                    HStack(spacing: 0) {
+                        // Sidebar: controls
+                        VStack(spacing: 12) {
+                            locationCard(shown: shown, server: server, best: best, ovpn: ovpn)
+                            timeAndProtocol
+                            assistantCard
+                            liveCard(connected: connected)
+                            if connected { statsCard }
+                        }
+                        .padding(.horizontal, 20)
+                        .frame(width: min(geo.size.width * 0.4, 400))
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .padding()
+
+                        // Map
+                        WorldMap(cc: shown?.cc, connected: connected, connecting: connecting,
+                                 labelCodes: vm.servers.map { $0.cc }.filter { !$0.isEmpty })
+                            .aspectRatio(WorldMap.imageSize.width / WorldMap.imageSize.height, contentMode: .fit)
+                            .background(C.mapBg)
+                            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                            .padding()
+                    }
                 }
-                .padding(.horizontal, 20)
+            } else {
+                // Compact size class (iPhone, iPad portrait): original vertical scroll
+                ScrollView {
+                    VStack(spacing: 0) {
+                        if connecting && !vm.detail.isEmpty {
+                            Text(vm.detail).font(.mylo(12)).foregroundColor(C.muted)
+                                .multilineTextAlignment(.center).padding(.horizontal, 24).padding(.vertical, 2)
+                        }
+                        if let m = vm.failedMessage {
+                            Text(m).font(.mylo(12)).foregroundColor(C.danger)
+                                .multilineTextAlignment(.center).padding(.horizontal, 24).padding(.vertical, 4)
+                        }
+                        if vm.mode == .profile && !connected && !connecting {
+                            Text(vm.notice.isEmpty
+                                 ? "Tap the power button. The first time it installs the VPN profile and guides you through a one-time Shortcuts setup; after that the button turns the VPN on and off."
+                                 : vm.notice)
+                                .font(.mylo(12)).foregroundColor(C.muted)
+                                .multilineTextAlignment(.center).padding(.horizontal, 28).padding(.top, 4)
+                        }
+                        Spacer().frame(height: 6)
+
+                        VStack(spacing: 12) {
+                            locationCard(shown: shown, server: server, best: best, ovpn: ovpn)
+                            WorldMap(cc: shown?.cc, connected: connected, connecting: connecting,
+                                     labelCodes: vm.servers.map { $0.cc }.filter { !$0.isEmpty })
+                                .aspectRatio(WorldMap.imageSize.width / WorldMap.imageSize.height, contentMode: .fit)
+                                .background(C.mapBg)
+                                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                            timeAndProtocol
+                            assistantCard
+                            liveCard(connected: connected)
+                            if connected { statsCard }
+                            Spacer().frame(height: 12)
+                        }
+                        .padding(.horizontal, 20)
+                    }
+                }
             }
         }
         .ignoresSafeArea(edges: .top)
@@ -64,96 +104,7 @@ struct HomeView: View {
         .task { try? await Task.sleep(nanoseconds: 2_500_000_000); await vm.livePingLoop(60) }   // keeps pings fresh for "Fastest Location"
     }
 
-    // MARK: hero
-
-    private func hero(connected: Bool, connecting: Bool) -> some View {
-        ZStack(alignment: .bottom) {
-            Canvas { ctx, size in
-                let c = CGPoint(x: size.width / 2, y: size.height - 64)
-                let r = size.width * 0.62
-                ctx.fill(Path(ellipseIn: CGRect(x: c.x - r, y: c.y - r, width: 2 * r, height: 2 * r)),
-                         with: .radialGradient(Gradient(colors: [C.glow, .clear]), center: c, startRadius: 0, endRadius: r))
-                for f in [0.575, 0.40] {
-                    let rr = size.width * CGFloat(f)
-                    ctx.stroke(Path(ellipseIn: CGRect(x: c.x - rr, y: c.y - rr, width: 2 * rr, height: 2 * rr)),
-                               with: .color(C.glow.opacity(0.6)), lineWidth: 1.5)
-                }
-            }
-            .opacity(connected ? 1 : 0.3)
-            .animation(.easeInOut(duration: 0.7), value: connected)
-
-            // extra core glow that only appears while protected
-            Circle()
-                .fill(RadialGradient(colors: [C.teal.opacity(0.42), C.teal.opacity(0.12), .clear],
-                                     center: .center, startRadius: 0, endRadius: 170))
-                .frame(width: 340, height: 340)
-                .offset(y: 106)
-                .opacity(connected ? 1 : 0)
-                .animation(.easeInOut(duration: 0.7), value: connected)
-                .allowsHitTesting(false)
-
-            HStack {
-                Image("Logo").resizable().scaledToFit().frame(height: 26)
-                    .padding(.top, 62).padding(.leading, 20)
-                    .frame(maxHeight: .infinity, alignment: .top)
-                Spacer()
-                VStack {
-                    Button(action: onAppearance) {
-                        Image(systemName: "paintpalette.fill").font(.mylo(26)).foregroundColor(C.ink)
-                    }
-                    .padding(.top, 58).padding(.trailing, 16)
-                    Spacer()
-                }
-            }
-            ZStack {
-                // halo rings: faint when off, bright when on
-                Circle().stroke((connected ? C.teal : C.glow).opacity(connected ? 0.35 : 0.30), lineWidth: 1.5)
-                    .frame(width: 134, height: 134)
-                Circle().stroke((connected ? C.teal : C.glow).opacity(connected ? 0.16 : 0.15), lineWidth: 1.5)
-                    .frame(width: 162, height: 162)
-                if connected {
-                    TimelineView(.animation) { tl in
-                        let t = tl.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 2.4) / 2.4
-                        Circle().stroke(C.teal.opacity(0.30 * (1 - t)), lineWidth: 2)
-                            .frame(width: 112 + 70 * t, height: 112 + 70 * t)
-                    }
-                }
-                if connecting {
-                    TimelineView(.animation) { tl in
-                        let deg = tl.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 1.1) / 1.1 * 360
-                        Circle().trim(from: 0, to: 0.3)
-                            .stroke(C.teal, style: StrokeStyle(lineWidth: 3, lineCap: .round))
-                            .frame(width: 120, height: 120)
-                            .rotationEffect(.degrees(deg))
-                    }
-                }
-                Button(action: { vm.toggle() }) {
-                    ZStack {
-                        Circle().fill(connected
-                                      ? AnyShapeStyle(LinearGradient(colors: [C.teal, C.teal.opacity(0.68)], startPoint: .top, endPoint: .bottom))
-                                      : AnyShapeStyle(LinearGradient(colors: [C.card, C.card.opacity(0.82)], startPoint: .top, endPoint: .bottom)))
-                        // glossy glass rim + top highlight
-                        Circle().stroke(LinearGradient(colors: [Color.white.opacity(connected ? 0.6 : 0.4), Color.white.opacity(0.04)],
-                                                       startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1.6)
-                        Circle().fill(LinearGradient(colors: [Color.white.opacity(connected ? 0.22 : 0.10), .clear],
-                                                     startPoint: .top, endPoint: .center))
-                            .padding(4)
-                        Image(systemName: "power").font(.mylo(42, weight: .semibold))
-                            .foregroundColor(connected ? .white : (connecting ? C.muted : C.pink))
-                    }
-                    .frame(width: 108, height: 108)
-                    .shadow(color: connected ? C.teal.opacity(0.6) : Color.black.opacity(0.18),
-                            radius: connected ? 28 : 14, y: connected ? 0 : 6)
-                }
-                .buttonStyle(.plain)
-            }
-            .animation(.easeInOut(duration: 0.5), value: connected)
-            .padding(.bottom, 10)
-        }
-        .frame(height: 312)
-    }
-
-    // MARK: cards
+    // MARK: - Helper functions
 
     /// The OpenVPN profile chosen in Locations > OpenVPN (only the OpenVPN build can connect with it).
     private func activeOpenVPN() -> ImportedConfig? {
@@ -175,15 +126,12 @@ struct HomeView: View {
                     Text(ovpn?.name ?? (vm.auto ? "Fastest Location" : (server?.name ?? "No server selected")))
                         .font(.mylo(19, weight: .semibold)).foregroundColor(C.ink).lineLimit(1)
                 }
-                Spacer()
-                Text("Change").font(.mylo(15)).foregroundColor(C.ink)
-                Image(systemName: "location.fill").font(.mylo(16)).foregroundColor(C.ink)
+                .padding(.horizontal, 14).padding(.vertical, 7)
+                .background(C.card)
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
             }
-            .padding(.horizontal, 14).padding(.vertical, 7)
-            .background(C.card)
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .buttonStyle(.plain)
         }
-        .buttonStyle(.plain)
     }
 
     private var timeAndProtocol: some View {
@@ -323,5 +271,94 @@ struct HomeView: View {
             Text(label).font(.mylo(12)).foregroundColor(C.muted)
             Text(value).font(.mylo(16, weight: .semibold)).foregroundColor(color)
         }
+    }
+
+    // MARK: hero
+
+    private func hero(connected: Bool, connecting: Bool) -> some View {
+        ZStack(alignment: .bottom) {
+            Canvas { ctx, size in
+                let c = CGPoint(x: size.width / 2, y: size.height - 64)
+                let r = size.width * 0.62
+                ctx.fill(Path(ellipseIn: CGRect(x: c.x - r, y: c.y - r, width: 2 * r, height: 2 * r)),
+                         with: .radialGradient(Gradient(colors: [C.glow, .clear]), center: c, startRadius: 0, endRadius: r))
+                for f in [0.575, 0.40] {
+                    let rr = size.width * CGFloat(f)
+                    ctx.stroke(Path(ellipseIn: CGRect(x: c.x - rr, y: c.y - rr, width: 2 * rr, height: 2 * rr)),
+                               with: .color(C.glow.opacity(0.6)), lineWidth: 1.5)
+                }
+            }
+            .opacity(connected ? 1 : 0.3)
+            .animation(.easeInOut(duration: 0.7), value: connected)
+
+            // extra core glow that only appears while protected
+            Circle()
+                .fill(RadialGradient(colors: [C.teal.opacity(0.42), C.teal.opacity(0.12), .clear],
+                                     center: .center, startRadius: 0, endRadius: 170))
+                .frame(width: 340, height: 340)
+                .offset(y: 106)
+                .opacity(connected ? 1 : 0)
+                .animation(.easeInOut(duration: 0.7), value: connected)
+                .allowsHitTesting(false)
+
+            HStack {
+                Image("Logo").resizable().scaledToFit().frame(height: 26)
+                    .padding(.top, 62).padding(.leading, 20)
+                    .frame(maxHeight: .infinity, alignment: .top)
+                Spacer()
+                VStack {
+                    Button(action: onAppearance) {
+                        Image(systemName: "paintpalette.fill").font(.mylo(26)).foregroundColor(C.ink)
+                    }
+                    .padding(.top, 58).padding(.trailing, 16)
+                    Spacer()
+                }
+            }
+            ZStack {
+                // halo rings: faint when off, bright when on
+                Circle().stroke((connected ? C.teal : C.glow).opacity(connected ? 0.35 : 0.30), lineWidth: 1.5)
+                    .frame(width: 134, height: 134)
+                Circle().stroke((connected ? C.teal : C.glow).opacity(connected ? 0.16 : 0.15), lineWidth: 1.5)
+                    .frame(width: 162, height: 162)
+                if connected {
+                    TimelineView(.animation) { tl in
+                        let t = tl.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 2.4) / 2.4
+                        Circle().stroke(C.teal.opacity(0.30 * (1 - t)), lineWidth: 2)
+                            .frame(width: 112 + 70 * t, height: 112 + 70 * t)
+                    }
+                }
+                if connecting {
+                    TimelineView(.animation) { tl in
+                        let deg = tl.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 1.1) / 1.1 * 360
+                        Circle().trim(from: 0, to: 0.3)
+                            .stroke(C.teal, style: StrokeStyle(lineWidth: 3, lineCap: .round))
+                            .frame(width: 120, height: 120)
+                            .rotationEffect(.degrees(deg))
+                    }
+                }
+                Button(action: { vm.toggle() }) {
+                    ZStack {
+                        Circle().fill(connected
+                                          ? AnyShapeStyle(LinearGradient(colors: [C.teal, C.teal.opacity(0.68)], startPoint: .top, endPoint: .bottom))
+                                          : AnyShapeStyle(LinearGradient(colors: [C.card, C.card.opacity(0.82)], startPoint: .top, endPoint: .bottom)))
+                        // glossy glass rim + top highlight
+                        Circle().stroke(LinearGradient(colors: [Color.white.opacity(connected ? 0.6 : 0.4), Color.white.opacity(0.04)],
+                                                       startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1.6)
+                        Circle().fill(LinearGradient(colors: [Color.white.opacity(connected ? 0.22 : 0.10), .clear],
+                                                     startPoint: .top, endPoint: .center))
+                            .padding(4)
+                        Image(systemName: "power").font(.mylo(42, weight: .semibold))
+                            .foregroundColor(connected ? .white : (connecting ? C.muted : C.pink))
+                    }
+                    .frame(width: 108, height: 108)
+                    .shadow(color: connected ? C.teal.opacity(0.6) : Color.black.opacity(0.18),
+                            radius: connected ? 28 : 14, y: connected ? 0 : 6)
+                }
+                .buttonStyle(.plain)
+            }
+            .animation(.easeInOut(duration: 0.5), value: connected)
+            .padding(.bottom, 10)
+        }
+        .frame(height: 312)
     }
 }

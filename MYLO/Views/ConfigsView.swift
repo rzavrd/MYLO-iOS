@@ -1,4 +1,8 @@
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -56,13 +60,26 @@ struct ConfigsView: View {
 
                     TextEditor(text: $text)
                         .scrollContentBackground(.hidden)
-                        .textInputAutocapitalization(.never).autocorrectionDisabled()
+#if canImport(UIKit)
+                        .autocapitalization(.none)
+#endif
+                        .autocorrectionDisabled()
                         .foregroundColor(C.ink)
                         .frame(height: 130).padding(8)
                         .background(RoundedRectangle(cornerRadius: 14).fill(C.card))
 
                     HStack(spacing: 10) {
-                        pill("Paste") { text = UIPasteboard.general.string ?? text }
+                        pill("Paste") {
+                            #if canImport(UIKit)
+                            if let pasteString = UIPasteboard.general.string {
+                                text = pasteString
+                            }
+                            #elseif canImport(AppKit)
+                            if let pasteString = NSPasteboard.general.string(forType: NSPasteboard.PasteboardType.string) {
+                                text = pasteString
+                            }
+                            #endif
+                        }
                         pill("Add links", filled: true) { importBatch([(text, nil)]); }
                     }
                     HStack(spacing: 10) {
@@ -104,31 +121,31 @@ struct ConfigsView: View {
                 }
                 .padding(20)
             }
-        }
-        .sheet(item: $authFor) { c in OpenVPNLoginSheet(config: c) }
-        .fileImporter(isPresented: $pickFile,
-                      allowedContentTypes: pickFolder ? [.folder] : [UTType(filenameExtension: "ovpn") ?? .plainText, .plainText, .data],
-                      allowsMultipleSelection: !pickFolder) { result in
-            guard case let .success(urls) = result else { return }
-            var batch: [(String, String?)] = []
-            var unreadable = 0
-            func read(_ u: URL) {
-                if let t = try? String(contentsOf: u, encoding: .utf8) { batch.append((t, u.lastPathComponent)) } else { unreadable += 1 }
-            }
-            for url in urls {
-                let scoped = url.startAccessingSecurityScopedResource()
-                defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-                var isDir: ObjCBool = false
-                if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir), isDir.boolValue {
-                    if let en = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil) {
-                        for case let f as URL in en where f.pathExtension.lowercased() == "ovpn" { read(f) }
-                    }
-                } else {
-                    read(url)
+            .sheet(item: $authFor) { c in OpenVPNLoginSheet(config: c) }
+            .fileImporter(isPresented: $pickFile,
+                          allowedContentTypes: pickFolder ? [.folder] : [UTType(filenameExtension: "ovpn") ?? .plainText, .plainText, .data],
+                          allowsMultipleSelection: !pickFolder) { result in
+                guard case let .success(urls) = result else { return }
+                var batch: [(String, String?)] = []
+                var unreadable = 0
+                func read(_ u: URL) {
+                    if let t = try? String(contentsOf: u, encoding: .utf8) { batch.append((t, u.lastPathComponent)) } else { unreadable += 1 }
                 }
+                for url in urls {
+                    let scoped = url.startAccessingSecurityScopedResource()
+                    defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+                    var isDir: ObjCBool = false
+                    if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir), isDir.boolValue {
+                        if let en = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil) {
+                            for case let f as URL in en where f.pathExtension.lowercased() == "ovpn" { read(f) }
+                        }
+                    } else {
+                        read(url)
+                    }
+                }
+                if batch.isEmpty { message = unreadable > 0 ? "Could not read the selected files." : "No .ovpn files found."; return }
+                importBatch(batch, unreadable: unreadable)
             }
-            if batch.isEmpty { message = unreadable > 0 ? "Could not read the selected files." : "No .ovpn files found."; return }
-            importBatch(batch, unreadable: unreadable)
         }
     }
 
@@ -174,12 +191,19 @@ struct OpenVPNLoginSheet: View {
         NavigationView {
             Form {
                 Section(header: Text(config.name)) {
-                    TextField("Username", text: $user).textInputAutocapitalization(.never).autocorrectionDisabled()
+                    TextField("Username", text: $user)
+#if canImport(UIKit)
+                    .autocapitalization(.none)
+#endif
+                    .autocorrectionDisabled()
                     SecureField("Password", text: $pass)
                 }
                 Section(footer: Text("Stored in the Keychain on this device.")) { EmptyView() }
             }
-            .navigationTitle("OpenVPN login").navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("OpenVPN login")
+            #if canImport(UIKit)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {

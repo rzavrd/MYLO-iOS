@@ -13,15 +13,19 @@
 		046C190D7A4CC91984D7C2E9 /* VpnController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328346678DDB424F825876B6 /* VpnController.swift */; };
 		0619EEBC07218AAE53C772EB /* Pinger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFEA08095DAB4F26856C15B /* Pinger.swift */; };
 		0A17ACDFBCB55847306445EF /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFBC2B7D148231FD90BB4F3 /* Store.swift */; };
+		0AC9B766D41238F2983B41A4 /* AppRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9151258DA93221319FF0CC4 /* AppRoot.swift */; };
 		0B478265903CE864EFAE7F29 /* ConfigsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8973B3C9EDAC42600524F4AE /* ConfigsView.swift */; };
 		0CB9A70D6878BCFD160E4C3B /* AdvancedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347286E43FDE31927CA3163E /* AdvancedView.swift */; };
+		0DCBA6513EC41CBD26AA0E7F /* Defaults.swift.backup-before-country-fix in Resources */ = {isa = PBXBuildFile; fileRef = 5AFD2C93CB5916D920B4B909 /* Defaults.swift.backup-before-country-fix */; };
 		0E600DF13F9E954A245A1925 /* AppRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9151258DA93221319FF0CC4 /* AppRoot.swift */; };
 		100CAC403FE1158381F39839 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3B35E28767364E48071B4711 /* PrivacyInfo.xcprivacy */; };
 		11011FEC9EDBD3DD8D77B26F /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3431A00D038156EA2CE2D28 /* Auth.swift */; };
 		17439521FAD98913B746C66B /* AppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4389A1F809FDA8D55F3F7B6 /* AppearanceView.swift */; };
+		180E203CDDD0153AD38C3E6B /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD074BFEA3B3D8D4881B0 /* HelpView.swift */; };
 		189AD9B80EFAA1E3817BCEF9 /* ProfileExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86711D4771B833AA83F8C793 /* ProfileExport.swift */; };
 		1A42FF70443093051F783ABF /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD074BFEA3B3D8D4881B0 /* HelpView.swift */; };
 		1B8F33DBFEE946D6B81F81CA /* AppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4389A1F809FDA8D55F3F7B6 /* AppearanceView.swift */; };
+		1D404A2B446BF67E195812BC /* ProfileExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86711D4771B833AA83F8C793 /* ProfileExport.swift */; };
 		1D47679C58135E2BDE026942 /* OpenVPNAdapter in Frameworks */ = {isa = PBXBuildFile; productRef = D4269349A1204065E8F5A81B /* OpenVPNAdapter */; };
 		1D81D525EB4655A8A78BBFEA /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434272CDCF744CBEFB483989 /* Format.swift */; };
 		213B38BEF01FB87A08F5B0C5 /* VpnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451A9C01B99A0498AE69CED7 /* VpnViewModel.swift */; };
@@ -36,20 +40,27 @@
 		2D8EBD6D6DF5281CF238E707 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6450C95AEC400D3C022DB9A /* LogView.swift */; };
 		2EEA4BAF625224AD816982BB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53382D15518FA5E5CDE3D5B8 /* LoginView.swift */; };
 		2F593A9D799F20CC3099CA6D /* Pinger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFEA08095DAB4F26856C15B /* Pinger.swift */; };
+		2FFECE498EF035484B78C173 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC4ABA5924525D13A34D37 /* LocationsView.swift */; };
 		3021BFF39F72B28D7697E84A /* ProfileExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86711D4771B833AA83F8C793 /* ProfileExport.swift */; };
 		30F95BC149F6741251DD11C9 /* SpeedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7DE5AD24EA06A202E575D /* SpeedTest.swift */; };
+		344F04570D97B80B256A7A15 /* Geo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4777908A0E1B38E33BD0C7BF /* Geo.swift */; };
 		34A6E575CAD59A0703AD4233 /* SpeedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7DE5AD24EA06A202E575D /* SpeedTest.swift */; };
 		352B1E6D56DECA7925D0DF24 /* AppRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9151258DA93221319FF0CC4 /* AppRoot.swift */; };
 		3740DCA21F414867860555D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B65DBB7C833244FBF5138F56 /* Assets.xcassets */; };
 		390A80E094CCFF7E749319AE /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C7961CEFC171733C04EC97 /* StatsView.swift */; };
 		39C6A296EE8C55451B1B30B7 /* AssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B688867656DDD821801902D /* AssistantView.swift */; };
+		3CA7AAEE81F028907C196A8D /* VpnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451A9C01B99A0498AE69CED7 /* VpnViewModel.swift */; };
 		3E0E9DFDF4B778AF5447DEEA /* ProfileExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86711D4771B833AA83F8C793 /* ProfileExport.swift */; };
 		41AB8E878D99CB52CB09F012 /* Diag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CF0431651F8200200C2D9D /* Diag.swift */; };
 		42FE4EC24C393C490E52B6CD /* ProxyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD41CAA2D41F4CF67AAC357 /* ProxyConfig.swift */; };
+		45FBE21C8CC7CDECDE0F802A /* NetIf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66923BC263F8E0508C3857 /* NetIf.swift */; };
 		467A5C280B4739850CF162A1 /* SpeedTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532E71DF9CB2D9B0F64586E8 /* SpeedTestView.swift */; };
+		46BC1B020B6FB9E64C19199A /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3431A00D038156EA2CE2D28 /* Auth.swift */; };
 		4BFC25BE3C8D9B2C91DE2FDF /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6450C95AEC400D3C022DB9A /* LogView.swift */; };
 		4DC054F2BEDB9E781E81973A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5708B6C7087B2327730095 /* Models.swift */; };
+		4F062C8EED4A308000DF4643 /* Diag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CF0431651F8200200C2D9D /* Diag.swift */; };
 		5469AFCDDE1D683844E96FEC /* SpeedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7DE5AD24EA06A202E575D /* SpeedTest.swift */; };
+		5C96AF91C6FA345866BF6DF1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3B35E28767364E48071B4711 /* PrivacyInfo.xcprivacy */; };
 		5D41DE24E18E5BF5A82E8305 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADF2CE821E1C1FA03395B17 /* ProfileView.swift */; };
 		5E7F1933015862EF590361B7 /* Geo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4777908A0E1B38E33BD0C7BF /* Geo.swift */; };
 		647332F1A7578CD5DA2218A8 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3431A00D038156EA2CE2D28 /* Auth.swift */; };
@@ -63,54 +74,84 @@
 		785256A043EEF503EEABA3A7 /* ProxyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD41CAA2D41F4CF67AAC357 /* ProxyConfig.swift */; };
 		793641C51FFF7471F92D49BE /* VpnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451A9C01B99A0498AE69CED7 /* VpnViewModel.swift */; };
 		799E03F609F9529156498A2C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53382D15518FA5E5CDE3D5B8 /* LoginView.swift */; };
+		79F3F726BE8D0D59016142B6 /* MyloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330CF1649962C2F14FD62720 /* MyloApp.swift */; };
+		7A71FD1487ED1AA6974402E1 /* Pinger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFEA08095DAB4F26856C15B /* Pinger.swift */; };
 		7B2FB92C5FAE1513E50EA382 /* SpeedTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532E71DF9CB2D9B0F64586E8 /* SpeedTestView.swift */; };
 		7C020264759D313A8F759E3A /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434272CDCF744CBEFB483989 /* Format.swift */; };
 		7C8DDE5CBE307FFA46007BE0 /* AppRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9151258DA93221319FF0CC4 /* AppRoot.swift */; };
+		7E94F507C27A15ED4038D8E5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53382D15518FA5E5CDE3D5B8 /* LoginView.swift */; };
+		81509FE8A962787CEFF2ECE0 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AFBC2B7D148231FD90BB4F3 /* Store.swift */; };
 		829D05402B651B3616E40DDF /* VpnViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 451A9C01B99A0498AE69CED7 /* VpnViewModel.swift */; };
 		8B9A725056276FED20E55733 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADF2CE821E1C1FA03395B17 /* ProfileView.swift */; };
+		8DA08DB1336E4C138479C563 /* ConfigsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8973B3C9EDAC42600524F4AE /* ConfigsView.swift */; };
+		8EB1890259C8244DDDA0DD6F /* PacketTunnelProvider.swift.bak-20261018-174016 in Resources */ = {isa = PBXBuildFile; fileRef = EE3BF877AF00F2AD05364D8E /* PacketTunnelProvider.swift.bak-20261018-174016 */; };
 		8ECD67EE46EE5EE9D50B07AA /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3B35E28767364E48071B4711 /* PrivacyInfo.xcprivacy */; };
 		8EE39C47DEF9F3B6DB4E770B /* NetIf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66923BC263F8E0508C3857 /* NetIf.swift */; };
+		9522E13C08F890DB081145F4 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5708B6C7087B2327730095 /* Models.swift */; };
 		96968FFE57268DE31E8D902D /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC4ABA5924525D13A34D37 /* LocationsView.swift */; };
+		9792E850E1601959F2C6C824 /* SpeedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B7DE5AD24EA06A202E575D /* SpeedTest.swift */; };
 		986BF7FBD1982364820E08A6 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADF2CE821E1C1FA03395B17 /* ProfileView.swift */; };
+		9D7EE3C3CF81A9EF24CDD7BA /* Defaults.swift.backup-before-country-fix in Resources */ = {isa = PBXBuildFile; fileRef = 5AFD2C93CB5916D920B4B909 /* Defaults.swift.backup-before-country-fix */; };
 		9F2FBEBF7B99E73CEC0552B1 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6450C95AEC400D3C022DB9A /* LogView.swift */; };
+		A54F7AE7CD256ED042B50F59 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A677B79CF204BE3A456A2C92 /* Theme.swift */; };
 		A74D96E0D9DFD9C91CB0B108 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3B35E28767364E48071B4711 /* PrivacyInfo.xcprivacy */; };
+		A8B511819117E4583CCD61CC /* LivePing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C92A1F0326A713E61E9DC05 /* LivePing.swift */; };
+		AA49378BC29C9E492E276993 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F29D458842DCC806422262F /* WorldMap.swift */; };
 		AC6B567CE15138561F40DCFA /* Geo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4777908A0E1B38E33BD0C7BF /* Geo.swift */; };
+		AE56479A02D1941056A4B6DB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B043AA1489BB51842B6C9BA5 /* HomeView.swift */; };
 		AE8037A948385C0C4DB200FB /* NetIf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66923BC263F8E0508C3857 /* NetIf.swift */; };
+		AECE939C6B885F45939B261A /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C7961CEFC171733C04EC97 /* StatsView.swift */; };
 		AEFA830E9B10374BFD1871B5 /* ConfigsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8973B3C9EDAC42600524F4AE /* ConfigsView.swift */; };
+		AF10EAE28F89A09A27A74500 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B65DBB7C833244FBF5138F56 /* Assets.xcassets */; };
+		B08D00CE528EDFEF946025C8 /* Defaults.swift.backup-before-country-fix in Resources */ = {isa = PBXBuildFile; fileRef = 5AFD2C93CB5916D920B4B909 /* Defaults.swift.backup-before-country-fix */; };
 		B0F526DE8D92EC0247D2ACEF /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE440D7676E6EEC3C082A779 /* Defaults.swift */; };
 		B48843609FC56D89F73829C2 /* LivePing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C92A1F0326A713E61E9DC05 /* LivePing.swift */; };
 		B53D9D839B19715156FE7EE5 /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F29D458842DCC806422262F /* WorldMap.swift */; };
 		B5A5A4A97C5FDC31E9B3B5F2 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C7961CEFC171733C04EC97 /* StatsView.swift */; };
+		B5D6D6044A5EB7C68D1955E1 /* AppearanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4389A1F809FDA8D55F3F7B6 /* AppearanceView.swift */; };
 		B7837FAA2203074ED34354F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B65DBB7C833244FBF5138F56 /* Assets.xcassets */; };
 		BBC4433D0F400E8F27C22AD0 /* AdvancedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347286E43FDE31927CA3163E /* AdvancedView.swift */; };
 		C00FDB98F11CD035EF92EC38 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B65DBB7C833244FBF5138F56 /* Assets.xcassets */; };
 		C28F89AD04CE014976A6274F /* AdvancedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347286E43FDE31927CA3163E /* AdvancedView.swift */; };
+		C3561C8A40C433A83B9720FA /* AssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B688867656DDD821801902D /* AssistantView.swift */; };
+		C4235CD3F246230C838C40F2 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE440D7676E6EEC3C082A779 /* Defaults.swift */; };
+		C932282F34D63B8571883466 /* Defaults.swift.backup-before-country-fix in Resources */ = {isa = PBXBuildFile; fileRef = 5AFD2C93CB5916D920B4B909 /* Defaults.swift.backup-before-country-fix */; };
 		C9DE8BD79AFFE859C516E4B1 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE440D7676E6EEC3C082A779 /* Defaults.swift */; };
 		CA6FAA45CF92CBE807E7B04C /* ConfigsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8973B3C9EDAC42600524F4AE /* ConfigsView.swift */; };
+		CDF54EB9706AF8A9EB76ADA9 /* VpnController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328346678DDB424F825876B6 /* VpnController.swift */; };
 		CEC6CA52FBB989213E07809C /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A677B79CF204BE3A456A2C92 /* Theme.swift */; };
 		CFD4416ECF2C5D3877DDC830 /* NetIf.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66923BC263F8E0508C3857 /* NetIf.swift */; };
 		D0A4938DDA63EB5C06D72603 /* VpnController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328346678DDB424F825876B6 /* VpnController.swift */; };
 		D0BD84A5217611A87D0399C3 /* MyloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330CF1649962C2F14FD62720 /* MyloApp.swift */; };
+		D23464A219D07FA5A2F98B5D /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6450C95AEC400D3C022DB9A /* LogView.swift */; };
+		D29FD30B73D06BBD8E5AE29E /* AdvancedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347286E43FDE31927CA3163E /* AdvancedView.swift */; };
 		D58FC8E2A2ED38CD674715B8 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC4ABA5924525D13A34D37 /* LocationsView.swift */; };
+		D599C500462AF02C988FD2D4 /* SpeedTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532E71DF9CB2D9B0F64586E8 /* SpeedTestView.swift */; };
 		DA3B50B5988FCC4BC438F8FA /* AssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B688867656DDD821801902D /* AssistantView.swift */; };
 		DB1CA248A442CC2B64E2E0CF /* WorldMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F29D458842DCC806422262F /* WorldMap.swift */; };
 		DB845E77712437C073A3E8F6 /* PacketTunnelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4BCA63A21CA5D5AFAD95A4 /* PacketTunnelProvider.swift */; };
+		DCB1806577BEC2030EFCBDB2 /* ProxyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD41CAA2D41F4CF67AAC357 /* ProxyConfig.swift */; };
 		DED84A007607574BBA72A071 /* LocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCBC4ABA5924525D13A34D37 /* LocationsView.swift */; };
 		DEE208B3B2BA346731F1B76D /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5708B6C7087B2327730095 /* Models.swift */; };
 		DF39B01AD6BA5A0FEBF84FBB /* Diag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CF0431651F8200200C2D9D /* Diag.swift */; };
 		E44367F3B12899C69C395960 /* MyloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330CF1649962C2F14FD62720 /* MyloApp.swift */; };
+		E5DD8843B189A39F2FBDDC3E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9021765ACD71991BA1339874 /* SystemConfiguration.framework */; };
 		EF11507D49343B849A50265F /* VpnController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328346678DDB424F825876B6 /* VpnController.swift */; };
 		EF61FEFC5BDD667549357911 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53382D15518FA5E5CDE3D5B8 /* LoginView.swift */; };
 		EFAC3486C3F5A7FD68D59C0E /* MYLOTunnel.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F5258710621BFFC62FED6350 /* MYLOTunnel.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F0685F834CEDA1AA04B2218A /* SpeedTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532E71DF9CB2D9B0F64586E8 /* SpeedTestView.swift */; };
 		F0FC7CFBB17DF9B093BA4418 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE440D7676E6EEC3C082A779 /* Defaults.swift */; };
 		F15B6E0F6BBEF56BA7790E8A /* Pinger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FFEA08095DAB4F26856C15B /* Pinger.swift */; };
+		F26861463BE4584365FA62A2 /* OpenVPNController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92A35E179C4228E2F7661C2 /* OpenVPNController.swift */; };
 		F473E38BB375854133565C35 /* LivePing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C92A1F0326A713E61E9DC05 /* LivePing.swift */; };
 		F5863DF2BC44B16797962E07 /* LivePing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C92A1F0326A713E61E9DC05 /* LivePing.swift */; };
 		F69B4B2F832099584DF1D0EE /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DBD074BFEA3B3D8D4881B0 /* HelpView.swift */; };
 		F70FAAE953624F32C8CEF6BF /* ProxyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CD41CAA2D41F4CF67AAC357 /* ProxyConfig.swift */; };
 		F77D3C0019D3A2D154CC2A89 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A677B79CF204BE3A456A2C92 /* Theme.swift */; };
 		F7E57A32C6FE8123C2B24F64 /* Geo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4777908A0E1B38E33BD0C7BF /* Geo.swift */; };
+		F7F6C275ABF540A1112FFB0E /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434272CDCF744CBEFB483989 /* Format.swift */; };
+		FA70DC431885C6F4A59C46CC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 719BA70F96C09A6BE24B33C0 /* UIKit.framework */; };
+		FDD455F90522E7A24F16522B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADF2CE821E1C1FA03395B17 /* ProfileView.swift */; };
 		FDF967A1D6EE29763104527F /* MyloApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330CF1649962C2F14FD62720 /* MyloApp.swift */; };
 /* End PBXBuildFile section */
 
@@ -147,19 +188,23 @@
 		328346678DDB424F825876B6 /* VpnController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnController.swift; sourceTree = "<group>"; };
 		330CF1649962C2F14FD62720 /* MyloApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyloApp.swift; sourceTree = "<group>"; };
 		347286E43FDE31927CA3163E /* AdvancedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedView.swift; sourceTree = "<group>"; };
-		3B35E28767364E48071B4711 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3B35E28767364E48071B4711 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		434272CDCF744CBEFB483989 /* Format.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		451A9C01B99A0498AE69CED7 /* VpnViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VpnViewModel.swift; sourceTree = "<group>"; };
 		4777908A0E1B38E33BD0C7BF /* Geo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geo.swift; sourceTree = "<group>"; };
 		532E71DF9CB2D9B0F64586E8 /* SpeedTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedTestView.swift; sourceTree = "<group>"; };
 		53382D15518FA5E5CDE3D5B8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		5AFD2C93CB5916D920B4B909 /* Defaults.swift.backup-before-country-fix */ = {isa = PBXFileReference; path = "Defaults.swift.backup-before-country-fix"; sourceTree = "<group>"; };
 		5D5708B6C7087B2327730095 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		5FFEA08095DAB4F26856C15B /* Pinger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pinger.swift; sourceTree = "<group>"; };
+		719BA70F96C09A6BE24B33C0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		7B688867656DDD821801902D /* AssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssistantView.swift; sourceTree = "<group>"; };
 		7CD41CAA2D41F4CF67AAC357 /* ProxyConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyConfig.swift; sourceTree = "<group>"; };
-		8501E3A845F8B561E874D252 /* MYLO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MYLO.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8501E3A845F8B561E874D252 /* MYLO.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MYLO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86711D4771B833AA83F8C793 /* ProfileExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileExport.swift; sourceTree = "<group>"; };
 		8973B3C9EDAC42600524F4AE /* ConfigsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigsView.swift; sourceTree = "<group>"; };
+		9021765ACD71991BA1339874 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9BD85F9050A7FD2DD1AD6F5B /* MYLO-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MYLO-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C92A1F0326A713E61E9DC05 /* LivePing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivePing.swift; sourceTree = "<group>"; };
 		A6450C95AEC400D3C022DB9A /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		A677B79CF204BE3A456A2C92 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -175,6 +220,7 @@
 		DCBC4ABA5924525D13A34D37 /* LocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsView.swift; sourceTree = "<group>"; };
 		E3431A00D038156EA2CE2D28 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		E92A35E179C4228E2F7661C2 /* OpenVPNController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenVPNController.swift; sourceTree = "<group>"; };
+		EE3BF877AF00F2AD05364D8E /* PacketTunnelProvider.swift.bak-20261018-174016 */ = {isa = PBXFileReference; path = "PacketTunnelProvider.swift.bak-20261018-174016"; sourceTree = "<group>"; };
 		F4389A1F809FDA8D55F3F7B6 /* AppearanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceView.swift; sourceTree = "<group>"; };
 		F5258710621BFFC62FED6350 /* MYLOTunnel.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = MYLOTunnel.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAE3EFC8D7BACD326B026245 /* MYLO-AppStore.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "MYLO-AppStore.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,6 +232,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D47679C58135E2BDE026942 /* OpenVPNAdapter in Frameworks */,
+				E5DD8843B189A39F2FBDDC3E /* SystemConfiguration.framework in Frameworks */,
+				FA70DC431885C6F4A59C46CC /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +252,15 @@
 				78A55B5A78C8F0077791A7A7 /* VPN */,
 			);
 			path = MYLO;
+			sourceTree = "<group>";
+		};
+		1BBC4C1AE0603410D43D596C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9021765ACD71991BA1339874 /* SystemConfiguration.framework */,
+				719BA70F96C09A6BE24B33C0 /* UIKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		78A55B5A78C8F0077791A7A7 /* VPN */ = {
@@ -226,6 +283,7 @@
 			children = (
 				E3431A00D038156EA2CE2D28 /* Auth.swift */,
 				BE440D7676E6EEC3C082A779 /* Defaults.swift */,
+				5AFD2C93CB5916D920B4B909 /* Defaults.swift.backup-before-country-fix */,
 				434272CDCF744CBEFB483989 /* Format.swift */,
 				4777908A0E1B38E33BD0C7BF /* Geo.swift */,
 				5D5708B6C7087B2327730095 /* Models.swift */,
@@ -240,6 +298,7 @@
 			children = (
 				11FA1A581E2E8091985AD75C /* MYLO */,
 				F4DC969D23F1CFAC5FA42CBA /* MYLOTunnel */,
+				1BBC4C1AE0603410D43D596C /* Frameworks */,
 				B45175B3A02AB120C217220D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -248,6 +307,7 @@
 			isa = PBXGroup;
 			children = (
 				FAE3EFC8D7BACD326B026245 /* MYLO-AppStore.app */,
+				9BD85F9050A7FD2DD1AD6F5B /* MYLO-macOS.app */,
 				DC4A493E8F045FB923B5BBEC /* MYLO-OpenVPN.app */,
 				8501E3A845F8B561E874D252 /* MYLO.app */,
 				F5258710621BFFC62FED6350 /* MYLOTunnel.appex */,
@@ -281,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				AD4BCA63A21CA5D5AFAD95A4 /* PacketTunnelProvider.swift */,
+				EE3BF877AF00F2AD05364D8E /* PacketTunnelProvider.swift.bak-20261018-174016 */,
 			);
 			path = MYLOTunnel;
 			sourceTree = "<group>";
@@ -306,6 +367,24 @@
 			productReference = FAE3EFC8D7BACD326B026245 /* MYLO-AppStore.app */;
 			productType = "com.apple.product-type.application";
 		};
+		5EA19955EEE0FA455EBC4746 /* MYLO-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0AFE759131744D72F242C4EA /* Build configuration list for PBXNativeTarget "MYLO-macOS" */;
+			buildPhases = (
+				3E98B66A340A9D835B632EAA /* Sources */,
+				30C93A4F0BDAFC06E2B4FC05 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MYLO-macOS";
+			packageProductDependencies = (
+			);
+			productName = "MYLO-macOS";
+			productReference = 9BD85F9050A7FD2DD1AD6F5B /* MYLO-macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 		614BFDA939E2DCC2229E9265 /* MYLO */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4D689F038FD78EB88631DF82 /* Build configuration list for PBXNativeTarget "MYLO" */;
@@ -329,6 +408,7 @@
 			buildConfigurationList = 9418A6EB3B7FF46783B88DED /* Build configuration list for PBXNativeTarget "MYLOTunnel" */;
 			buildPhases = (
 				77DF0F16E6A4026BCFD6F2B0 /* Sources */,
+				C50F4CA432E01F44D9A9CEAB /* Resources */,
 				31696666359D8CE8FB1240A9 /* Frameworks */,
 			);
 			buildRules = (
@@ -371,6 +451,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = B883D868FB4C57326974B422 /* Build configuration list for PBXProject "MYLO" */;
 			developmentRegion = en;
@@ -393,17 +475,37 @@
 				5A5F82D10ABC3355BA8D2E69 /* MYLO-AppStore */,
 				76B09EED58E51CF18A93F278 /* MYLO-OpenVPN */,
 				68BDF87CA9E44F9597B46B78 /* MYLOTunnel */,
+				5EA19955EEE0FA455EBC4746 /* MYLO-macOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		30C93A4F0BDAFC06E2B4FC05 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF10EAE28F89A09A27A74500 /* Assets.xcassets in Resources */,
+				B08D00CE528EDFEF946025C8 /* Defaults.swift.backup-before-country-fix in Resources */,
+				5C96AF91C6FA345866BF6DF1 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		342629A6F57F9D4548B24C47 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				C00FDB98F11CD035EF92EC38 /* Assets.xcassets in Resources */,
+				C932282F34D63B8571883466 /* Defaults.swift.backup-before-country-fix in Resources */,
 				A74D96E0D9DFD9C91CB0B108 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C50F4CA432E01F44D9A9CEAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8EB1890259C8244DDDA0DD6F /* PacketTunnelProvider.swift.bak-20261018-174016 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +514,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3740DCA21F414867860555D9 /* Assets.xcassets in Resources */,
+				0DCBA6513EC41CBD26AA0E7F /* Defaults.swift.backup-before-country-fix in Resources */,
 				100CAC403FE1158381F39839 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -421,6 +524,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7837FAA2203074ED34354F2 /* Assets.xcassets in Resources */,
+				9D7EE3C3CF81A9EF24CDD7BA /* Defaults.swift.backup-before-country-fix in Resources */,
 				8ECD67EE46EE5EE9D50B07AA /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -464,6 +568,45 @@
 				D0A4938DDA63EB5C06D72603 /* VpnController.swift in Sources */,
 				829D05402B651B3616E40DDF /* VpnViewModel.swift in Sources */,
 				DB1CA248A442CC2B64E2E0CF /* WorldMap.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3E98B66A340A9D835B632EAA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D29FD30B73D06BBD8E5AE29E /* AdvancedView.swift in Sources */,
+				0AC9B766D41238F2983B41A4 /* AppRoot.swift in Sources */,
+				B5D6D6044A5EB7C68D1955E1 /* AppearanceView.swift in Sources */,
+				C3561C8A40C433A83B9720FA /* AssistantView.swift in Sources */,
+				46BC1B020B6FB9E64C19199A /* Auth.swift in Sources */,
+				8DA08DB1336E4C138479C563 /* ConfigsView.swift in Sources */,
+				C4235CD3F246230C838C40F2 /* Defaults.swift in Sources */,
+				4F062C8EED4A308000DF4643 /* Diag.swift in Sources */,
+				F7F6C275ABF540A1112FFB0E /* Format.swift in Sources */,
+				344F04570D97B80B256A7A15 /* Geo.swift in Sources */,
+				180E203CDDD0153AD38C3E6B /* HelpView.swift in Sources */,
+				AE56479A02D1941056A4B6DB /* HomeView.swift in Sources */,
+				A8B511819117E4583CCD61CC /* LivePing.swift in Sources */,
+				2FFECE498EF035484B78C173 /* LocationsView.swift in Sources */,
+				D23464A219D07FA5A2F98B5D /* LogView.swift in Sources */,
+				7E94F507C27A15ED4038D8E5 /* LoginView.swift in Sources */,
+				9522E13C08F890DB081145F4 /* Models.swift in Sources */,
+				79F3F726BE8D0D59016142B6 /* MyloApp.swift in Sources */,
+				45FBE21C8CC7CDECDE0F802A /* NetIf.swift in Sources */,
+				F26861463BE4584365FA62A2 /* OpenVPNController.swift in Sources */,
+				7A71FD1487ED1AA6974402E1 /* Pinger.swift in Sources */,
+				1D404A2B446BF67E195812BC /* ProfileExport.swift in Sources */,
+				FDD455F90522E7A24F16522B /* ProfileView.swift in Sources */,
+				DCB1806577BEC2030EFCBDB2 /* ProxyConfig.swift in Sources */,
+				9792E850E1601959F2C6C824 /* SpeedTest.swift in Sources */,
+				D599C500462AF02C988FD2D4 /* SpeedTestView.swift in Sources */,
+				AECE939C6B885F45939B261A /* StatsView.swift in Sources */,
+				81509FE8A962787CEFF2ECE0 /* Store.swift in Sources */,
+				A54F7AE7CD256ED042B50F59 /* Theme.swift in Sources */,
+				CDF54EB9706AF8A9EB76ADA9 /* VpnController.swift in Sources */,
+				3CA7AAEE81F028907C196A8D /* VpnViewModel.swift in Sources */,
+				AA49378BC29C9E492E276993 /* WorldMap.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -564,6 +707,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0744A43F0AE685DD44D3DF6F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = MYLO/Config/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mylo.vpn.mac;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		111B724F9FC9F8B989BCA323 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -598,7 +757,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -611,14 +770,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -678,7 +836,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 68RSM5MWWC;
 				INFOPLIST_FILE = MYLO/Config/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -713,7 +870,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 68RSM5MWWC;
 				INFOPLIST_FILE = MYLO/Config/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -795,7 +951,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -814,22 +970,46 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E89239A5B54E0777D67B787C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = MYLO/Config/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mylo.vpn.mac;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0AFE759131744D72F242C4EA /* Build configuration list for PBXNativeTarget "MYLO-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E89239A5B54E0777D67B787C /* Debug */,
+				0744A43F0AE685DD44D3DF6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		0D1DB8A391EC17DEE3708A31 /* Build configuration list for PBXNativeTarget "MYLO-AppStore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

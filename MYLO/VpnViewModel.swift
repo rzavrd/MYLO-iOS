@@ -1,5 +1,9 @@
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 import Combine
 
 @MainActor
@@ -247,7 +251,11 @@ final class VpnViewModel: ObservableObject {
 
     private func runShortcut(_ name: String) async -> Bool {
         guard let u = shortcutURL(name) else { return false }
+        #if canImport(UIKit)
         return await UIApplication.shared.open(u)
+        #elseif canImport(AppKit)
+        return NSWorkspace.shared.open(u)
+        #endif
     }
 
     private func sendProfile(_ chosen: Server, replacing: Bool) async {
@@ -313,7 +321,11 @@ final class VpnViewModel: ObservableObject {
     }
 
     func openShortcutsApp() {
+        #if canImport(UIKit)
         if let u = URL(string: "shortcuts://") { UIApplication.shared.open(u) }
+        #elseif canImport(AppKit)
+        if let u = URL(string: "shortcuts://") { NSWorkspace.shared.open(u) }
+        #endif
     }
     #endif
 
